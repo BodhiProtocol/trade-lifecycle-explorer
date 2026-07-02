@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Lifecycle Explorer · BodhiProtocol</title>
+<meta name="description" content="An interactive map of capital markets — six pillars, one lifecycle. Built by a business analyst who believes understanding is downstream of making.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14101F;
+  --panel:#201936;
+  --panel-2:#2A2145;
+  --lotus:#9D7BEA;
+  --lavender:#C9B8F5;
+  --gold:#E8B75A;
+  --mist:#EDE9F7;
+  --muted:#8B84A3;
+  --line:rgba(157,123,234,.22);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  background:var(--ink);
+  color:var(--mist);
+  font-family:'Inter',system-ui,sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--lavender)}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+
+/* ---------- header ---------- */
+header{
+  padding:26px 0 0;
+  display:flex;justify-content:center;
+}
+.brand{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;letter-spacing:.22em;
+  color:var(--muted);text-transform:uppercase;
+}
+.brand b{color:var(--lotus);font-weight:500}
+
+/* ---------- hero ---------- */
+.hero{padding:44px 0 12px;text-align:center}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;
+  font-size:clamp(2.4rem,6vw,3.8rem);
+  line-height:1.08;
+  letter-spacing:.01em;
+}
+.hero h1 em{font-style:italic;color:var(--lotus)}
+.hero p.sub{
+  margin:18px auto 0;max-width:520px;
+  color:var(--muted);font-size:1.02rem;
+}
+.hero .hint{
+  margin-top:26px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);
+}
+
+/* ---------- mandala ---------- */
+.mandala-zone{display:flex;justify-content:center;padding:8px 0 0}
+.mandala{width:min(560px,92vw);height:auto;display:block}
+.petal{cursor:pointer;transition:transform .35s ease, filter .35s ease}
+.petal .fill{fill:var(--panel-2);stroke:var(--line);stroke-width:1.5;transition:fill .35s ease, stroke .35s ease}
+.petal text{fill:var(--lavender);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;pointer-events:none;transition:fill .35s ease}
+.petal .num{fill:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:400}
+.petal:hover .fill,.petal:focus-visible .fill{fill:#352A58;stroke:var(--lotus)}
+.petal:focus-visible{outline:none}
+.petal:focus-visible .fill{stroke:var(--gold);stroke-width:2.5}
+.petal.active .fill{fill:var(--lotus);stroke:var(--gold);stroke-width:2}
+.petal.active text{fill:var(--ink)}
+.petal.active .num{fill:rgba(20,16,31,.65)}
+.core-circle{fill:var(--ink);stroke:var(--gold);stroke-width:1.5}
+.core-text{fill:var(--gold);font-family:'Cormorant Garamond',serif;font-size:17px;font-style:italic}
+
+/* ---------- pillar panel ---------- */
+.panel-zone{padding:30px 0 56px}
+.pillar-panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:34px 36px;
+  max-width:760px;margin:0 auto;
+  min-height:280px;
+}
+.pillar-panel .eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:10px;
+}
+.pillar-panel h2{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:600;font-size:2rem;line-height:1.15;margin-bottom:6px;
+}
+.pillar-panel .essence{
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;font-size:1.15rem;color:var(--lavender);
+  margin-bottom:20px;
+}
+.pillar-panel .concepts{color:var(--mist);font-size:.96rem;margin-bottom:22px}
+.pillar-panel .concepts span{
+  display:inline-block;background:var(--panel-2);
+  border:1px solid var(--line);border-radius:999px;
+  padding:5px 14px;margin:0 8px 8px 0;font-size:.85rem;color:var(--lavender);
+}
+.ba-lens{
+  border-left:2px solid var(--gold);
+  padding:4px 0 4px 18px;
+  color:var(--mist);font-size:.95rem;
+}
+.ba-lens .label{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);display:block;margin-bottom:6px;
+}
+
+/* ---------- lifecycle ---------- */
+.lifecycle{padding:30px 0 70px}
+.section-head{text-align:center;margin-bottom:38px}
+.section-head .eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--gold);
+}
+.section-head h2{
+  font-family:'Cormorant Garamond',serif;font-weight:600;
+  font-size:clamp(1.9rem,4.5vw,2.6rem);margin-top:8px;
+}
+.section-head p{color:var(--muted);max-width:480px;margin:10px auto 0;font-size:.95rem}
+.stepper{
+  display:flex;justify-content:center;gap:0;
+  flex-wrap:wrap;margin-bottom:34px;
+}
+.step{
+  background:none;border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;
+  padding:10px 14px;position:relative;min-width:112px;
+  color:var(--muted);font-family:'Inter',sans-serif;
+}
+.step .dot{
+  width:38px;height:38px;border-radius:50%;
+  border:1.5px solid var(--line);background:var(--panel);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.8rem;color:var(--lavender);
+  transition:all .3s ease;margin-bottom:8px;
+}
+.step .lbl{font-size:.78rem;font-weight:500;transition:color .3s ease;text-align:center}
+.step:hover .dot,.step:focus-visible .dot{border-color:var(--lotus);background:var(--panel-2)}
+.step:focus-visible{outline:none}
+.step:focus-visible .dot{border-color:var(--gold)}
+.step.active .dot{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:500}
+.step.active .lbl{color:var(--mist)}
+.step:not(:last-child)::after{
+  content:"";position:absolute;top:29px;left:calc(50% + 26px);
+  width:calc(100% - 52px);height:1px;background:var(--line);
+}
+.stage-card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:18px;padding:32px 36px;max-width:760px;margin:0 auto;
+}
+.stage-card .t-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+}
+.stage-card h3{
+  font-family:'Cormorant Garamond',serif;font-weight:600;
+  font-size:1.7rem;margin-bottom:12px;
+}
+.stage-card p.desc{color:var(--mist);font-size:.96rem;margin-bottom:18px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px;margin-bottom:20px}
+.kv div{background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.kv .k{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.kv .v{font-size:.88rem;color:var(--lavender)}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--line);
+  padding:34px 0 44px;text-align:center;
+}
+footer .om{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  color:var(--lavender);font-size:1.05rem;margin-bottom:10px;
+}
+footer .meta{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  letter-spacing:.16em;color:var(--muted);text-transform:uppercase;
+}
+footer .meta a{color:var(--lotus);text-decoration:none}
+footer .meta a:hover{color:var(--gold)}
+
+@media (max-width:640px){
+  .pillar-panel,.stage-card{padding:26px 22px}
+  .kv{grid-template-columns:1fr}
+  .step{min-width:96px;padding:8px 8px}
+  .step:not(:last-child)::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Bodhi<b>Protocol</b></div>
+</header>
+
+<section class="hero wrap">
+  <h1>The market is complex.<br><em>Understanding it needn't be.</em></h1>
+  <p class="sub">Six pillars hold up every capital market on earth. Touch a petal to open one.</p>
+  <div class="hint">tap a petal · then walk the lifecycle below</div>
+</section>
+
+<div class="mandala-zone">
+  <svg class="mandala" viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="Six pillar mandala navigation">
+    <!-- petals generated by JS -->
+    <g id="petals"></g>
+    <circle class="core-circle" cx="280" cy="280" r="64"/>
+    <text class="core-text" x="280" y="274" text-anchor="middle">capital</text>
+    <text class="core-text" x="280" y="296" text-anchor="middle">markets</text>
+  </svg>
+</div>
+
+<section class="panel-zone wrap">
+  <div class="pillar-panel" id="pillarPanel" aria-live="polite"></div>
+</section>
+
+<section class="lifecycle wrap" id="lifecycle">
+  <div class="section-head">
+    <div class="eyebrow">Pillar III in motion</div>
+    <h2>Walk the Trade Lifecycle</h2>
+    <p>One equity trade, from intention to record. Six stages — because every trade is a small journey.</p>
+  </div>
+
+  <div class="stepper" id="stepper" role="tablist" aria-label="Trade lifecycle stages"></div>
+
+  <div class="stage-card" id="stageCard" aria-live="polite"></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="om">"You are what your deep, driving desire is." — Bṛhadāraṇyaka Upaniṣad</div>
+    <div class="meta">Built by a business analyst who builds · <a href="https://github.com/BodhiProtocol" target="_blank" rel="noopener">github.com/BodhiProtocol</a></div>
+  </div>
+</footer>
+
+<script>
+/* ============ DATA ============ */
+const PILLARS = [
+  {
+    num:"I", short:"Structure", title:"Market Structure & Participants",
+    essence:"A market is a conversation. Know who is speaking.",
+    concepts:["Exchanges (NSE · BSE)","Brokers & Dealers","Buy-side / Sell-side","Custodians","Depositories (NSDL · CDSL)","Market Makers","Regulators (SEBI · RBI)"],
+    lens:"The BA maps every actor before mapping any system. A requirements doc that forgets the custodian will fail at settlement — three weeks after go-live."
+  },
+  {
+    num:"II", short:"Instruments", title:"Financial Instruments",
+    essence:"Everything traded is a promise, shaped differently.",
+    concepts:["Equities","Fixed Income / Bonds","Derivatives (F&O)","ETFs & Mutual Funds","Money Market","Structured Products","REITs / InvITs"],
+    lens:"Each instrument carries its own lifecycle quirks — a bond accrues, an option expires, an equity pays dividends. The BA writes rules that respect the shape of the promise."
+  },
+  {
+    num:"III", short:"Lifecycle", title:"Trade Lifecycle",
+    essence:"Every trade is born, matched, cleared, settled, remembered.",
+    concepts:["Order Initiation","Execution","Capture & Enrichment","Clearing & Novation","Settlement (T+1)","Reconciliation"],
+    lens:"This is the BA's home ground. Every user story in a trading system lives at one stage of this journey. Scroll down — this pillar opens into a full walk."
+  },
+  {
+    num:"IV", short:"Clearing", title:"Clearing & Settlement",
+    essence:"Trust, made mechanical.",
+    concepts:["CCP & Novation","Netting","Margining (SPAN)","DvP — Delivery vs Payment","T+1 Cycle","Depository Transfer","Fails & Buy-ins"],
+    lens:"Where money meets stock, risk concentrates. The BA here writes acceptance criteria measured in basis points and cut-off times, not vibes."
+  },
+  {
+    num:"V", short:"Risk", title:"Risk & Compliance",
+    essence:"The market's conscience, encoded.",
+    concepts:["Market / Credit / Operational Risk","KYC & AML","Fraud Surveillance","SEBI Regulations","Audit Trails","Trade Surveillance","Limit Monitoring"],
+    lens:"Anti-fraud systems live here: velocity checks, threshold alerts, the eternal trade-off between false positives and missed threats. The BA translates regulation into rules a machine can run."
+  },
+  {
+    num:"VI", short:"Technology", title:"Technology & Data",
+    essence:"The invisible loom on which every trade is woven.",
+    concepts:["OMS / EMS","FIX Protocol","Matching Engines","Market Data Feeds","STP — Straight-Through Processing","Reference Data","APIs & Messaging"],
+    lens:"The BA is the translator between the trading floor and the codebase — fluent enough in both to be trusted by either."
+  }
+];
+
+const STAGES = [
+  {
+    t:"Stage 1 · T-minus", title:"Order Initiation",
+    desc:"An investor forms an intention. KYC is verified, funds and limits are checked, and the order is captured — market, limit, or stop — then validated before it ever touches an exchange.",
+    kv:[["Who acts","Investor · Broker · OMS"],["Key check","KYC, margin & limit validation"],["System","Order Management System"],["BA lens","Write validation rules that reject bad orders politely and early"]]
+  },
+  {
+    t:"Stage 2 · T", title:"Execution",
+    desc:"The exchange's matching engine pairs buyers and sellers by price-time priority. In microseconds, intention becomes transaction. A trade is born and both parties receive confirmation.",
+    kv:[["Who acts","Exchange matching engine"],["Key rule","Price-time priority"],["Speed","Microseconds"],["BA lens","Understand the engine's rules well enough to explain a partial fill to an angry desk head"]]
+  },
+  {
+    t:"Stage 3 · T", title:"Capture & Enrichment",
+    desc:"The raw execution is captured downstream and enriched — counterparty details, settlement instructions, fees, taxes. Institutional trades are allocated across accounts and confirmed with the counterparty.",
+    kv:[["Who acts","Middle office · Broker ops"],["Key step","Trade confirmation & allocation"],["Risk here","Mismatched economics → breaks"],["BA lens","Every enrichment field you forget becomes tomorrow's reconciliation break"]]
+  },
+  {
+    t:"Stage 4 · T to T+1", title:"Clearing",
+    desc:"The clearing corporation steps between the two parties — novation — becoming buyer to every seller and seller to every buyer. Obligations are netted; margins are collected against the risk of default.",
+    kv:[["Who acts","CCP (e.g., NSE Clearing)"],["Key concept","Novation & netting"],["Safeguard","Margins & default fund"],["BA lens","Netting logic is where requirements get mathematically honest"]]
+  },
+  {
+    t:"Stage 5 · T+1", title:"Settlement",
+    desc:"Delivery versus payment: securities move from seller's demat to buyer's demat via the depository, exactly as funds move the other way. India settles equities on T+1 — among the fastest cycles in the world.",
+    kv:[["Who acts","Depositories · Custodians · Banks"],["Key principle","DvP — no delivery without payment"],["Cycle","T+1 (India equities)"],["BA lens","Cut-off times are requirements. Miss one in your spec, fail in production"]]
+  },
+  {
+    t:"Stage 6 · T+1 onward", title:"Post-Settlement",
+    desc:"The trade is remembered: positions reconciled, corporate actions applied, regulatory reports filed, and the audit trail sealed. What was once an intention is now an immutable record.",
+    kv:[["Who acts","Back office · Compliance"],["Key work","Reconciliation & reporting"],["Long tail","Corporate actions, audits"],["BA lens","Good systems make this boring. Boring is the goal"]]
+  }
+];
+
+/* ============ MANDALA ============ */
+const CX=280, CY=280, R_IN=78, R_OUT=205;
+const petalsG = document.getElementById("petals");
+
+function polar(r, deg){
+  const a=(deg-90)*Math.PI/180;
+  return [CX+r*Math.cos(a), CY+r*Math.sin(a)];
+}
+
+PILLARS.forEach((p,i)=>{
+  const a0=i*60+4, a1=(i+1)*60-4;
+  const [x1,y1]=polar(R_IN,a0), [x2,y2]=polar(R_OUT,a0);
+  const [x3,y3]=polar(R_OUT,a1), [x4,y4]=polar(R_IN,a1);
+  const path=`M ${x1} ${y1} L ${x2} ${y2} A ${R_OUT} ${R_OUT} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${R_IN} ${R_IN} 0 0 0 ${x1} ${y1} Z`;
+  const mid=(a0+a1)/2;
+  const [tx,ty]=polar((R_IN+R_OUT)/2+6, mid);
+  const [nx,ny]=polar((R_IN+R_OUT)/2-22, mid);
+
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.setAttribute("class","petal");
+  g.setAttribute("tabindex","0");
+  g.setAttribute("role","button");
+  g.setAttribute("aria-label",p.title);
+  g.innerHTML=`
+    <path class="fill" d="${path}"/>
+    <text class="num" x="${nx}" y="${ny}" text-anchor="middle">${p.num}</text>
+    <text x="${tx}" y="${ty}" text-anchor="middle">${p.short}</text>`;
+  g.addEventListener("click",()=>selectPillar(i));
+  g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectPillar(i);}});
+  petalsG.appendChild(g);
+});
+
+const panel=document.getElementById("pillarPanel");
+function selectPillar(i){
+  document.querySelectorAll(".petal").forEach((el,j)=>el.classList.toggle("active",j===i));
+  const p=PILLARS[i];
+  panel.innerHTML=`
+    <div class="eyebrow">Pillar ${p.num} of VI</div>
+    <h2>${p.title}</h2>
+    <p class="essence">${p.essence}</p>
+    <div class="concepts">${p.concepts.map(c=>`<span>${c}</span>`).join("")}</div>
+    <div class="ba-lens"><span class="label">The BA Lens</span>${p.lens}</div>`;
+}
+selectPillar(2); // open on Trade Lifecycle
+
+/* ============ LIFECYCLE STEPPER ============ */
+const stepper=document.getElementById("stepper");
+const card=document.getElementById("stageCard");
+
+STAGES.forEach((s,i)=>{
+  const b=document.createElement("button");
+  b.className="step";
+  b.setAttribute("role","tab");
+  b.setAttribute("aria-label",s.title);
+  b.innerHTML=`<span class="dot">${i+1}</span><span class="lbl">${s.title}</span>`;
+  b.addEventListener("click",()=>selectStage(i));
+  stepper.appendChild(b);
+});
+
+function selectStage(i){
+  document.querySelectorAll(".step").forEach((el,j)=>el.classList.toggle("active",j===i));
+  const s=STAGES[i];
+  card.innerHTML=`
+    <div class="t-label">${s.t}</div>
+    <h3>${s.title}</h3>
+    <p class="desc">${s.desc}</p>
+    <div class="kv">${s.kv.map(([k,v])=>`<div><div class="k">${k}</div><div class="v">${v}</div></div>`).join("")}</div>`;
+}
+selectStage(0);
+</script>
+</body>
+</html>
