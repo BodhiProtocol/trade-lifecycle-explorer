@@ -108,12 +108,22 @@ header{
   font-style:italic;font-size:1.15rem;color:var(--lavender);
   margin-bottom:20px;
 }
-.pillar-panel .concepts{color:var(--mist);font-size:.96rem;margin-bottom:22px}
-.pillar-panel .concepts span{
-  display:inline-block;background:var(--panel-2);
-  border:1px solid var(--line);border-radius:999px;
-  padding:5px 14px;margin:0 8px 8px 0;font-size:.85rem;color:var(--lavender);
+.pillar-panel .concepts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.concept-item{display:contents}
+.concept-pill{
+  background:var(--panel-2);border:1px solid var(--line);border-radius:999px;
+  padding:5px 14px;font-size:.85rem;color:var(--lavender);cursor:pointer;
+  font-family:'Inter',sans-serif;transition:background .2s ease,border-color .2s ease;
 }
+.concept-pill:hover{background:#352A58;border-color:var(--lotus)}
+.concept-pill:focus-visible{outline:none;background:#352A58;border-color:var(--gold)}
+.concept-pill[aria-expanded="true"]{background:var(--lotus);border-color:var(--gold);color:var(--ink)}
+.concept-def{
+  display:none;flex-basis:100%;
+  color:var(--mist);font-size:.88rem;line-height:1.5;
+  border-left:2px solid var(--gold);padding:2px 0 6px 14px;
+}
+.concept-item.open .concept-def{display:block}
 .ba-lens{
   border-left:2px solid var(--gold);
   padding:4px 0 4px 18px;
@@ -257,37 +267,84 @@ const PILLARS = [
   {
     num:"I", short:"Structure", title:"Market Structure & Participants",
     essence:"A market is a conversation. Know who is speaking.",
-    concepts:["Exchanges (NSE · BSE)","Brokers & Dealers","Buy-side / Sell-side","Custodians","Depositories (NSDL · CDSL)","Market Makers","Regulators (SEBI · RBI)"],
+    concepts:[
+      {t:"Exchanges (NSE · BSE)", d:"The venues where buy and sell orders actually meet and match — NSE and BSE are India's two."},
+      {t:"Brokers & Dealers", d:"Brokers execute trades for clients; dealers trade their own book. Many firms are both."},
+      {t:"Buy-side / Sell-side", d:"Buy-side manages money for investors; sell-side trades and advises for a fee."},
+      {t:"Custodians", d:"Safekeep securities and cash for institutional investors — the last line of custody defense."},
+      {t:"Depositories (NSDL · CDSL)", d:"Hold securities in electronic (dematerialized) form and record every change of ownership."},
+      {t:"Market Makers", d:"Continuously quote both buy and sell prices to keep a market liquid, profiting from the spread."},
+      {t:"Regulators (SEBI · RBI)", d:"SEBI polices the securities market; RBI oversees banks and monetary policy — different referees, same game."}
+    ],
     lens:"The BA maps every actor before mapping any system. A requirements doc that forgets the custodian will fail at settlement — three weeks after go-live."
   },
   {
     num:"II", short:"Instruments", title:"Financial Instruments",
     essence:"Everything traded is a promise, shaped differently.",
-    concepts:["Equities","Fixed Income / Bonds","Derivatives (F&O)","ETFs & Mutual Funds","Money Market","Structured Products","REITs / InvITs"],
+    concepts:[
+      {t:"Equities", d:"Ownership stakes in a company — the classic 'stock'. Value moves with the business and the market's mood."},
+      {t:"Fixed Income / Bonds", d:"A loan in disguise: the issuer pays periodic interest and returns principal at maturity."},
+      {t:"Derivatives (F&O)", d:"Contracts whose value derives from something else — futures lock a price, options buy the right to one."},
+      {t:"ETFs & Mutual Funds", d:"Pooled vehicles that buy a basket of assets for you. ETFs trade like a stock; mutual funds price once a day."},
+      {t:"Money Market", d:"Short-term, low-risk debt — T-bills, commercial paper — where cash parks when it isn't ready to commit."},
+      {t:"Structured Products", d:"Custom-built instruments that blend a bond and a derivative to engineer a specific payoff."},
+      {t:"REITs / InvITs", d:"Let retail investors own a slice of real estate or infrastructure without buying the building."}
+    ],
     lens:"Each instrument carries its own lifecycle quirks — a bond accrues, an option expires, an equity pays dividends. The BA writes rules that respect the shape of the promise."
   },
   {
     num:"III", short:"Lifecycle", title:"Trade Lifecycle",
     essence:"Every trade is born, matched, cleared, settled, remembered.",
-    concepts:["Order Initiation","Execution","Capture & Enrichment","Clearing & Novation","Settlement (T+1)","Reconciliation"],
+    concepts:[
+      {t:"Order Initiation", d:"An investor's intent becomes a validated, exchange-ready order."},
+      {t:"Execution", d:"The exchange's matching engine turns two opposing orders into one trade."},
+      {t:"Capture & Enrichment", d:"The raw trade gets counterparty details, fees, and instructions attached."},
+      {t:"Clearing & Novation", d:"A central counterparty steps in as buyer to every seller and seller to every buyer."},
+      {t:"Settlement (T+1)", d:"Securities and cash actually change hands — a day after the trade in India."},
+      {t:"Reconciliation", d:"Positions and records are checked against reality and locked in as fact."}
+    ],
     lens:"This is the BA's home ground. Every user story in a trading system lives at one stage of this journey. Scroll down — this pillar opens into a full walk."
   },
   {
     num:"IV", short:"Clearing", title:"Clearing & Settlement",
     essence:"Trust, made mechanical.",
-    concepts:["CCP & Novation","Netting","Margining (SPAN)","DvP — Delivery vs Payment","T+1 Cycle","Depository Transfer","Fails & Buy-ins"],
+    concepts:[
+      {t:"CCP & Novation", d:"A central counterparty inserts itself into every trade, so no one faces counterparty risk directly."},
+      {t:"Netting", d:"Thousands of obligations collapse into one net amount owed — far less to move, far less that can go wrong."},
+      {t:"Margining (SPAN)", d:"Collateral collected upfront to cover the worst-case loss if a party defaults before settlement."},
+      {t:"DvP — Delivery vs Payment", d:"Securities and cash move simultaneously — neither side hands over first."},
+      {t:"T+1 Cycle", d:"India settles equity trades one business day after execution — one of the fastest cycles globally."},
+      {t:"Depository Transfer", d:"The actual electronic movement of securities between demat accounts at settlement."},
+      {t:"Fails & Buy-ins", d:"When one side can't deliver on time — a fail — the exchange may force a buy-in to complete it."}
+    ],
     lens:"Where money meets stock, risk concentrates. The BA here writes acceptance criteria measured in basis points and cut-off times, not vibes."
   },
   {
     num:"V", short:"Risk", title:"Risk & Compliance",
     essence:"The market's conscience, encoded.",
-    concepts:["Market / Credit / Operational Risk","KYC & AML","Fraud Surveillance","SEBI Regulations","Audit Trails","Trade Surveillance","Limit Monitoring"],
+    concepts:[
+      {t:"Market / Credit / Operational Risk", d:"Price risk, counterparty risk, and the risk your own systems or people fail — the three risks every desk tracks."},
+      {t:"KYC & AML", d:"Know Your Customer and Anti-Money Laundering checks that verify who's really trading and where the money came from."},
+      {t:"Fraud Surveillance", d:"Systems watching for patterns — insider trading, wash trades, spoofing — that don't belong."},
+      {t:"SEBI Regulations", d:"The rulebook that governs disclosure, conduct, and fairness in India's securities markets."},
+      {t:"Audit Trails", d:"An immutable record of who did what, when — the evidence when something is questioned."},
+      {t:"Trade Surveillance", d:"Automated monitoring of trading activity to catch market abuse in near real time."},
+      {t:"Limit Monitoring", d:"Real-time checks that a trader or client hasn't breached their risk or exposure limits."}
+    ],
     lens:"Anti-fraud systems live here: velocity checks, threshold alerts, the eternal trade-off between false positives and missed threats. The BA translates regulation into rules a machine can run."
   },
   {
     num:"VI", short:"Technology", title:"Technology & Data",
     essence:"The invisible loom on which every trade is woven.",
-    concepts:["OMS / EMS","FIX Protocol","Matching Engines","Market Data Feeds","STP — Straight-Through Processing","Reference Data","APIs & Messaging"],
+    concepts:[
+      {t:"OMS / EMS", d:"Order Management Systems route and track orders; Execution Management Systems optimize how they hit the market."},
+      {t:"FIX Protocol", d:"The common language trading systems use to talk to each other — Financial Information eXchange."},
+      {t:"Matching Engines", d:"The software at the exchange's core that pairs buy and sell orders by price-time priority."},
+      {t:"Market Data Feeds", d:"The real-time stream of prices and quotes every trading decision is built on."},
+      {t:"STP — Straight-Through Processing", d:"A trade flows from order to settlement with no manual re-keying — the automation ideal."},
+      {t:"Reference Data", d:"The static facts — security IDs, corporate hierarchies, calendars — that every other system depends on being right."},
+      {t:"APIs & Messaging", d:"The plumbing that lets systems exchange data and instructions without a human in between."}
+    ],
     lens:"The BA is the translator between the trading floor and the codebase — fluent enough in both to be trusted by either."
   }
 ];
@@ -365,9 +422,20 @@ function selectPillar(i){
     <div class="eyebrow">Pillar ${p.num} of VI</div>
     <h2>${p.title}</h2>
     <p class="essence">${p.essence}</p>
-    <div class="concepts">${p.concepts.map(c=>`<span>${c}</span>`).join("")}</div>
+    <div class="concepts">${p.concepts.map((c,ci)=>`
+      <span class="concept-item" data-idx="${ci}">
+        <button class="concept-pill" aria-expanded="false">${c.t}</button>
+        <span class="concept-def">${c.d}</span>
+      </span>`).join("")}</div>
     <div class="ba-lens"><span class="label">The BA Lens</span>${p.lens}</div>`;
 }
+panel.addEventListener("click",e=>{
+  const btn=e.target.closest(".concept-pill");
+  if(!btn) return;
+  const item=btn.closest(".concept-item");
+  const open=item.classList.toggle("open");
+  btn.setAttribute("aria-expanded", open);
+});
 selectPillar(2); // open on Trade Lifecycle
 
 /* ============ LIFECYCLE STEPPER ============ */
