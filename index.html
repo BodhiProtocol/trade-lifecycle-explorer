@@ -272,9 +272,9 @@ const PILLARS = [
     concepts:[
       {t:"Exchanges (NSE · BSE)", d:"The venues where buy and sell orders actually meet and match — NSE and BSE are India's two."},
       {t:"Brokers & Dealers", d:"Brokers execute trades for clients; dealers trade their own book. Many firms are both."},
-      {t:"Flow Trading", d:"The bank risks its own capital, quoting a price and taking the other side of your trade — profit lives in the spread."},
-      {t:"Agency Trading", d:"The bank takes no risk at all — just executes your order on an exchange for a commission."},
-      {t:"Prop Trading", d:"A bank trading purely for its own profit, no client involved — mostly regulated away post-2008 by the Volcker Rule."},
+      {t:"Flow Trading", d:"The bank risks its own capital, quoting a price and taking the other side of your trade — profit lives in the spread. E.g. you sell a bond to the bank at 90; they now own the risk and hope to offload it later at 92."},
+      {t:"Agency Trading", d:"The bank takes no risk at all — just executes your order on an exchange for a commission. E.g. you buy 500 Infosys shares on NSE; your broker routes the order and charges a small fee, never owning the shares themselves."},
+      {t:"Prop Trading", d:"A bank trading purely for its own profit, no client involved — mostly regulated away post-2008 by the Volcker Rule. E.g. a bank's desk buys Nifty futures because its own models predict a rally — any profit or loss is entirely the bank's."},
       {t:"Sales-Traders", d:"Part salesperson, part executor — they advise on strategy and work the order, without holding the risk themselves."},
       {t:"Bid-Offer Spread", d:"The gap between what a trader will pay (bid) and sell for (offer). E.g. quote a Tesla bond at $90 bid / $92 offer — buy at 90, sell at 92, pocket the spread on volume."},
       {t:"Buy-side / Sell-side", d:"Buy-side manages money for investors; sell-side trades and advises for a fee."},
@@ -352,7 +352,7 @@ const PILLARS = [
       {t:"STP — Straight-Through Processing", d:"A trade flows from order to settlement with no manual re-keying — the automation ideal."},
       {t:"Reference Data", d:"The static facts — security IDs, corporate hierarchies, calendars — that every other system depends on being right."},
       {t:"APIs & Messaging", d:"The plumbing that lets systems exchange data and instructions without a human in between."},
-      {t:"Electronic Trading", d:"Algorithms replacing human traders for simple, liquid products — works less well for complex instruments like corporate bonds."}
+      {t:"Electronic Trading", d:"Algorithms replacing human traders for simple, liquid products — works less well for complex instruments like corporate bonds. E.g. buying 100 Reliance shares today is matched by an algorithm in microseconds, with no human trader ever touching the order."}
     ],
     lens:"The BA is the translator between the trading floor and the codebase — fluent enough in both to be trusted by either."
   }
