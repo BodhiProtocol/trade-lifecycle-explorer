@@ -272,6 +272,11 @@ const PILLARS = [
     concepts:[
       {t:"Exchanges (NSE · BSE)", d:"The venues where buy and sell orders actually meet and match — NSE and BSE are India's two."},
       {t:"Brokers & Dealers", d:"Brokers execute trades for clients; dealers trade their own book. Many firms are both."},
+      {t:"Flow Trading", d:"The bank risks its own capital, quoting a price and taking the other side of your trade — profit lives in the spread."},
+      {t:"Agency Trading", d:"The bank takes no risk at all — just executes your order on an exchange for a commission."},
+      {t:"Prop Trading", d:"A bank trading purely for its own profit, no client involved — mostly regulated away post-2008 by the Volcker Rule."},
+      {t:"Sales-Traders", d:"Part salesperson, part executor — they advise on strategy and work the order, without holding the risk themselves."},
+      {t:"Bid-Offer Spread", d:"The gap between what a trader will pay (bid) and sell for (offer) — the oldest profit mechanism on any trading desk."},
       {t:"Buy-side / Sell-side", d:"Buy-side manages money for investors; sell-side trades and advises for a fee."},
       {t:"Custodians", d:"Safekeep securities and cash for institutional investors — the last line of custody defense."},
       {t:"Depositories (NSDL · CDSL)", d:"Hold securities in electronic (dematerialized) form and record every change of ownership."},
@@ -331,7 +336,8 @@ const PILLARS = [
       {t:"SEBI Regulations", d:"The rulebook that governs disclosure, conduct, and fairness in India's securities markets."},
       {t:"Audit Trails", d:"An immutable record of who did what, when — the evidence when something is questioned."},
       {t:"Trade Surveillance", d:"Automated monitoring of trading activity to catch market abuse in near real time."},
-      {t:"Limit Monitoring", d:"Real-time checks that a trader or client hasn't breached their risk or exposure limits."}
+      {t:"Limit Monitoring", d:"Real-time checks that a trader or client hasn't breached their risk or exposure limits."},
+      {t:"Hedging", d:"Using derivatives to offset a position's risk — insurance for a trade, paid for in advance."}
     ],
     lens:"Anti-fraud systems live here: velocity checks, threshold alerts, the eternal trade-off between false positives and missed threats. The BA translates regulation into rules a machine can run."
   },
@@ -345,7 +351,8 @@ const PILLARS = [
       {t:"Market Data Feeds", d:"The real-time stream of prices and quotes every trading decision is built on."},
       {t:"STP — Straight-Through Processing", d:"A trade flows from order to settlement with no manual re-keying — the automation ideal."},
       {t:"Reference Data", d:"The static facts — security IDs, corporate hierarchies, calendars — that every other system depends on being right."},
-      {t:"APIs & Messaging", d:"The plumbing that lets systems exchange data and instructions without a human in between."}
+      {t:"APIs & Messaging", d:"The plumbing that lets systems exchange data and instructions without a human in between."},
+      {t:"Electronic Trading", d:"Algorithms replacing human traders for simple, liquid products — works less well for complex instruments like corporate bonds."}
     ],
     lens:"The BA is the translator between the trading floor and the codebase — fluent enough in both to be trusted by either."
   }
