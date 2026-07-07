@@ -265,6 +265,7 @@ footer .meta a:hover{color:var(--gold)}
 
 <script>
 /* ============ DATA ============ */
+const TERMINAL_ICON = '<svg width="15" height="15" viewBox="0 0 16 16" style="vertical-align:-2px;margin-right:6px;stroke:var(--gold)" fill="none" stroke-width="1.3"><rect x="1" y="2" width="14" height="9" rx="1"/><line x1="5" y1="14" x2="11" y2="14"/><line x1="8" y1="11" x2="8" y2="14"/></svg>';
 const PILLARS = [
   {
     num:"I", short:"Structure", title:"Market Structure & Participants",
@@ -360,10 +361,10 @@ const PILLARS = [
       {t:"Electronic Trading", d:"Algorithms replacing human traders for simple, liquid products — works less well for complex instruments like corporate bonds. E.g. buying 100 Reliance shares today is matched by an algorithm in microseconds, with no human trader ever touching the order."},
       {t:"Blotter", d:"The trading floor's running ledger — every trade logged the moment it happens, the first line of defense against a lost or mismatched trade. E.g. a missing trade at day's end is caught by checking the blotter against the exchange's record."},
       {t:"Turret", d:"The trading floor's dedicated phone system — one button connects instantly to a specific broker or desk, no dialing. E.g. a trader hits one turret line to shout an order to a broker in seconds, when a phone call would cost precious time."},
-      {t:"Bloomberg Terminal", d:"The market leader (~33% share) for real-time data and fixed income — the trading floor default despite costing $24k+/year. Weakness: often too expensive to be standard-issue for every investment banker. E.g. traders stay on it partly for its built-in instant-messaging network everyone else is already using."},
-      {t:"Capital IQ (CapIQ)", d:"S&P Global's browser-based screening and comps tool built for investment bankers — click through any number straight to its source filing. Weakness: thinner real-time market data, less suited to trading desks. E.g. an analyst builds a comparable-company table in minutes instead of digging through filings by hand."},
-      {t:"FactSet", d:"The buy-side favorite (84% of clients) for portfolio analytics and PowerPoint-ready pitchbooks, and the cheapest full platform at ~$12,000/year. Weakness: installed software tied to specific machines, with no integrated equity research. E.g. a fund manager runs the multi-asset backtests FactSet is purpose-built for."},
-      {t:"Refinitiv Eikon", d:"Bloomberg's direct competitor, strong in treasury and OTC data, often positioned as the budget alternative for junior staff. Weakness: generally seen as thinner data breadth than Bloomberg. E.g. the stripped-down Eikon Xenith version costs ~$3,600/year instead of Bloomberg's $24k+."},
+      {t:"Bloomberg Terminal", icon:TERMINAL_ICON, d:"The market leader (33.4% share) for real-time data and fixed income — $27,660/year for one license, dropping to $24,240/year for two or more, leased on a two-year basis. Weakness: often too expensive to be standard-issue for every investment banker. E.g. traders stay on it partly for its built-in instant-messaging network everyone else is already using."},
+      {t:"Capital IQ (CapIQ)", icon:TERMINAL_ICON, d:"S&P Global's browser-based screening and comps tool for investment bankers (6.2% market share) — pricing isn't published; it's tier-based and customized per client. Weakness: thinner real-time market data, less suited to trading desks. E.g. an analyst clicks through any number straight to its source filing instead of digging through documents by hand."},
+      {t:"FactSet", icon:TERMINAL_ICON, d:"The buy-side favorite (84% of clients, 4.5% overall market share) for portfolio analytics and PowerPoint-ready pitchbooks — the cheapest full platform at $12,000/year. Weakness: installed software tied to specific machines, with no integrated equity research. E.g. a fund manager runs the multi-asset backtests FactSet is purpose-built for."},
+      {t:"Refinitiv Eikon", icon:TERMINAL_ICON, d:"Bloomberg's direct competitor (19.6% market share), strong in treasury and OTC data — $22,000/year full price, or as little as $3,600/year for the stripped-down Eikon Xenith version. Weakness: generally seen as thinner data breadth than Bloomberg. E.g. junior staff often get the budget Xenith version instead of the full platform."},
       {t:"Niche Data Platforms", d:"Specialists that out-focus the big four in one lane each — PitchBook for private markets, Mergermarket for M&A intelligence, Symphony for secure messaging, Estimize for crowdsourced earnings forecasts."}
     ],
     lens:"The BA is the translator between the trading floor and the codebase — fluent enough in both to be trusted by either."
@@ -446,7 +447,7 @@ function selectPillar(i){
     <div class="concepts">${p.concepts.map((c,ci)=>`
       <span class="concept-item" data-idx="${ci}">
         <button class="concept-pill" aria-expanded="false">${c.t}</button>
-        <span class="concept-def">${c.d}</span>
+        <span class="concept-def">${c.icon||''}${c.d}</span>
       </span>`).join("")}</div>
     <div class="ba-lens"><span class="label">The BA Lens</span>${p.lens}</div>`;
 }
